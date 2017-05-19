@@ -1,0 +1,15 @@
+FROM ubuntu
+
+# Create app directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# Install dependent packages
+RUN apt-get update && apt-get install -y curl build-essential libcurl4-openssl-dev git cmake libssl-dev uuid-dev valgrind libglib2.0-dev libtool autoconf
+RUN git clone https://github.com/Azure/iot-edge.git
+
+RUN iot-edge/tools/build.sh
+
+COPY simulated_device_cloud_upload_lin.json iot-edge/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
+
+CMD [ "bash" ]

@@ -1,0 +1,185 @@
+{
+  "modules": [
+    {
+      "name": "IotHub",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/iothub/libiothub.so"
+        }
+      },
+      "args": {
+        "IoTHubName": "<insert iothub name here>",
+        "IoTHubSuffix": "azure-devices.net",
+        "Transport": "HTTP"
+      }
+    },
+    {
+      "name": "mapping",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/identitymap/libidentity_map.so"
+        }
+      },
+      "args": [
+        {
+          "macAddress": "01:01:01:01:01:01",
+          "deviceId": "DockerDevice1",
+          "deviceKey": "<insert primary key here>"
+        },
+        {
+          "macAddress": "02:02:02:02:02:02",
+          "deviceId": "DockerDevice2",
+          "deviceKey": "<insert primary key here>"
+        },
+        {
+          "macAddress": "03:03:03:03:03:03",
+          "deviceId": "DockerDevice3",
+          "deviceKey": "<insert primary key here>"
+        },
+        {
+          "macAddress": "04:04:04:04:04:04",
+          "deviceId": "DockerDevice4",
+          "deviceKey": "<insert primary key here>"
+        },
+        {
+          "macAddress": "05:05:05:05:05:05",
+          "deviceId": "DockerDevice5",
+          "deviceKey": "<insert primary key here>"
+        }
+      ]
+    },
+    {
+      "name": "BLE1",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/simulated_device/libsimulated_device.so"
+        }
+      },
+      "args": {
+        "macAddress": "01:01:01:01:01:01",
+        "messagePeriod": 2000
+      }
+    },
+    {
+      "name": "BLE2",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/simulated_device/libsimulated_device.so"
+        }
+      },
+      "args": {
+        "macAddress": "02:02:02:02:02:02",
+        "messagePeriod": 2000
+      }
+    },
+    {
+      "name": "BLE3",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/simulated_device/libsimulated_device.so"
+        }
+      },
+      "args": {
+        "macAddress": "03:03:03:03:03:03",
+        "messagePeriod": 2000
+      }
+    },
+    {
+      "name": "BLE4",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/simulated_device/libsimulated_device.so"
+        }
+      },
+      "args": {
+        "macAddress": "04:04:04:04:04:04",
+        "messagePeriod": 2000
+      }
+    },
+    {
+      "name": "BLE5",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/simulated_device/libsimulated_device.so"
+        }
+      },
+      "args": {
+        "macAddress": "05:05:05:05:05:05",
+        "messagePeriod": 2000
+      }
+    },
+    {
+      "name": "Logger",
+      "loader": {
+        "name": "native",
+        "entrypoint": {
+          "module.path": "./modules/logger/liblogger.so"
+        }
+      },
+      "args": {
+        "filename": "deviceCloudUploadGatewaylog.log"
+      }
+    }
+  ],
+  "links": [
+    {
+      "source": "*",
+      "sink": "Logger"
+    },
+    {
+      "source": "BLE1",
+      "sink": "mapping"
+    },
+    {
+      "source": "BLE2",
+      "sink": "mapping"
+    },
+    {
+      "source": "BLE3",
+      "sink": "mapping"
+    },
+    {
+      "source": "BLE4",
+      "sink": "mapping"
+    },
+    {
+      "source": "BLE5",
+      "sink": "mapping"
+    },
+    {
+      "source": "mapping",
+      "sink": "IotHub"
+    },
+    {
+      "source": "IotHub",
+      "sink": "mapping"
+    },
+    {
+      "source": "mapping",
+      "sink": "BLE1"
+    },
+    {
+      "source": "mapping",
+      "sink": "BLE2"
+    },
+    {
+      "source": "mapping",
+      "sink": "BLE3"
+    },
+    {
+      "source": "mapping",
+      "sink": "BLE4"
+    },
+    {
+      "source": "mapping",
+      "sink": "BLE5"
+    }
+  ]
+}
